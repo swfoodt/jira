@@ -1,4 +1,5 @@
 import Table from "antd/lib/table";
+import dayjs from "dayjs";
 
 interface Project {
   id: string;
@@ -6,6 +7,7 @@ interface Project {
   personId: string;
   pin: boolean;
   organization: string;
+  created: number;
 }
 interface User {
   id: string;
@@ -30,6 +32,10 @@ export const List = ({ users, list }: ListProps) => {
           sorter:(a, b) => a.name.localeCompare(b.name)
         },
         {
+          title: "部门",
+          dataIndex: "organization"
+        },
+        {
           title: "负责人",
           render(value, project) {
             return (
@@ -40,6 +46,14 @@ export const List = ({ users, list }: ListProps) => {
             );
           },
         },
+        {
+          title: "创建时间",
+          render(value, project){
+            return <span>
+              {project.created ? dayjs(project.created).format('YYYY-MM-DD'):'无'}
+            </span>
+          }
+        }
       ]}
       dataSource={list}
     />
