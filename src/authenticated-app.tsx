@@ -3,23 +3,23 @@ import { Row } from "components/lib";
 import { useAuth } from "context/auth-context";
 import { ProjectListScreen } from "screens/project-list";
 import { ReactComponent as Softwarelogo } from "assets/software-logo.svg";
-import type { MenuProps } from 'antd';
+import { Button, MenuProps } from "antd";
 import { Dropdown, Menu } from "antd";
 
 export const AuthenticatedApp = () => {
-    const { logout, user } = useAuth();
-    const items: MenuProps['items'] = [
-        {
-            key: 1,
-            label: (
-                <Menu>
-                    <Menu.Item key={'logout'}>
-                        <a onClick={logout}>登出</a>
-                    </Menu.Item>
-                </Menu>
-            )
-        },
-    ]
+  const { logout, user } = useAuth();
+  const items: MenuProps["items"] = [
+    {
+      key: 1,
+      label: (
+        <Menu>
+          <Menu.Item key={"logout"}>
+            <Button type="link" onClick={logout}>登出</Button>
+          </Menu.Item>
+        </Menu>
+      ),
+    },
+  ];
   return (
     <Container>
       <Header between={true}>
@@ -29,11 +29,9 @@ export const AuthenticatedApp = () => {
           <h2>用户</h2>
         </HeaderLeft>
         <HeaderRight>
-            <Dropdown menu={{items}}>
-                <a onClick={e => e.preventDefault()}>
-                    Hi, {user?.name}
-                </a>
-            </Dropdown>
+          <Dropdown menu={{ items }}>
+            <Button type="link" onClick={(e) => e.preventDefault()}>Hi, {user?.name}</Button>
+          </Dropdown>
         </HeaderRight>
       </Header>
       <Main>

@@ -5,7 +5,6 @@ import { SearchPanel } from "./search-panel"
 import { useHttp } from "utils/http"
 import styled from "@emotion/styled"
 
-const apiUrl = process.env.REACT_APP_API_URL
 export const ProjectListScreen = () => {
     const [param,setParam] = useState({
         name: "",
@@ -19,6 +18,7 @@ export const ProjectListScreen = () => {
     const client = useHttp()
     useEffect(() => {
         client('projects',{data: cleanObject(debouncedParam)}).then(setList)
+        // eslint-disable-next-line 
     },[debouncedParam])
 
     useMount(() => {
