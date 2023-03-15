@@ -51,8 +51,6 @@ export const useAsync = <D>(
       })
       .catch((error) => {
         setError(error);
-        console.log(initialConfig.throwOnError);
-
         if (initialConfig.throwOnError) return Promise.reject(error);
         return error;
       });
