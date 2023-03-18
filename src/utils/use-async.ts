@@ -2,7 +2,7 @@ import { useState } from "react";
 
 interface State<D> {
   error: Error | null;
-  data: D | null;
+  data: D | null; 
   stat: "idle" | "loading" | "error" | "success";
 }
 
