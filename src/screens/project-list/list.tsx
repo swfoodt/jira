@@ -1,6 +1,8 @@
 import Table, { TableProps } from "antd/lib/table";
+import { Pin } from "components/pin";
 import dayjs from "dayjs";
 import { Link } from "react-router-dom";
+import { useEditProject } from "utils/project";
 
 export interface Project {
   id: number;
@@ -19,26 +21,41 @@ interface User {
 }
 interface ListProps extends TableProps<Project> {
   users: User[];
+  refresh?: () => void;
 }
 
 export const List = ({ users, ...props }: ListProps) => {
+  const { mutate } = useEditProject();
+  const pinProject = (id: number) => (pin: boolean) =>
+    mutate({ id, pin }).then(props.refresh);
   return (
     <Table
       rowKey={"id"}
       pagination={false}
       columns={[
         {
+          title: <Pin checked={true} disabled={true} />,
+          render(value, project) {
+            return (
+              <Pin
+                checked={project.pin}
+                onCheckedChange={pinProject(project.id)}
+              />
+            );
+          },
+        },
+        {
           key: "1",
           title: "名称",
-          sorter:(a, b) => a.name.localeCompare(b.name),
-          render(value, project){
-            return <Link to={String(project.id)}>{project.name}</Link>
-          }
+          sorter: (a, b) => a.name.localeCompare(b.name),
+          render(value, project) {
+            return <Link to={String(project.id)}>{project.name}</Link>;
+          },
         },
         {
           key: "2",
           title: "部门",
-          dataIndex: "organization"
+          dataIndex: "organization",
         },
         {
           key: "3",
@@ -55,12 +72,16 @@ export const List = ({ users, ...props }: ListProps) => {
         {
           key: "4",
           title: "创建时间",
-          render(value, project){
-            return <span>
-              {project.created ? dayjs(project.created).format('YYYY-MM-DD'):'无'}
-            </span>
-          }
-        }
+          render(value, project) {
+            return (
+              <span>
+                {project.created
+                  ? dayjs(project.created).format("YYYY-MM-DD")
+                  : "无"}
+              </span>
+            );
+          },
+        },
       ]}
       {...props}
     />
