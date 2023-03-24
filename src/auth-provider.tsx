@@ -1,5 +1,5 @@
 //提供用户认真相关函数，发送请求存储token
-import { User } from "screens/project-list/search-panel"
+import { User } from "types/User"
 
 const LocalStorageKey = '__auth_provider_token__'
 
