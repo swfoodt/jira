@@ -1,6 +1,10 @@
 import { Kanban } from "types/kanban";
 import { useTasks } from "utils/task";
-import { useKanbansQueryKey, useTasksModal, useTasksSearchParams } from "screens/kanban/util";
+import {
+  useKanbansQueryKey,
+  useTasksModal,
+  useTasksSearchParams,
+} from "screens/kanban/util";
 import { useTaskTypes } from "utils/task-type";
 import taskIcon from "assets/task.svg";
 import bugIcon from "assets/bug.svg";
@@ -12,6 +16,7 @@ import { CreateTask } from "./create-task";
 import { Mark } from "components/mark";
 import { Task } from "types/task";
 import React from "react";
+import { Drag, Drop, DropChild } from "components/drag-and-drop";
 
 const TaskTypeIcon = ({ id }: { id: number }) => {
   const { data: taskTypes } = useTaskTypes();
@@ -52,9 +57,25 @@ export const KanbanColumn = React.forwardRef<
         <More kanban={kanban} key={kanban.id} />
       </Row>
       <TasksContainer>
-        {tasks?.map((task) => (
-          <TaskCard key={task.id} task={task} />
-        ))}
+        <Drop
+          type={"ROW"}
+          direction={"vertical"}
+          droppableId={String(kanban.id)}
+        >
+          <DropChild>
+            {tasks?.map((task, taskIndex) => (
+              <Drag
+                key={task.id}
+                index={taskIndex}
+                draggableId={"task" + task.id}
+              >
+                <div>
+                  <TaskCard key={task.id} task={task} />
+                </div>
+              </Drag>
+            ))}
+          </DropChild>
+        </Drop>
         <CreateTask kanbanId={kanban.id} />
       </TasksContainer>
     </Container>
@@ -83,7 +104,7 @@ const More = ({ kanban }: { kanban: Kanban }) => {
     </Menu>
   );
   return (
-    <Dropdown menu={{ items: [{key:1, label:(overlay)}]}}>
+    <Dropdown menu={{ items: [{ key: 1, label: overlay }] }}>
       <Button type={"link"}>...</Button>
     </Dropdown>
   );
