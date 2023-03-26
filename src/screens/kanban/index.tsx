@@ -112,7 +112,7 @@ export const useDragEnd = () => {
 
 export const ColumnsContainer = styled("div")`
   display: flex;
-  overflow-x: scroll;
+  overflow-x: auto;
   flex: 1;
   
   ::-webkit-scrollbar {

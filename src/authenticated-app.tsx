@@ -8,10 +8,10 @@ import { Dropdown, Menu } from "antd";
 import { Route, Routes } from "react-router";
 import { ProjectScreen } from "screens/project";
 import { BrowserRouter as Router, Navigate } from "react-router-dom";
-import { useState } from "react";
 import { resetRoute } from "utils";
 import { ProjectPopover } from "components/project-popover";
 import { ProjectModal } from "screens/project-list/project-modal";
+import { UserPopover } from "components/user-popover";
 
 export const AuthenticatedApp = () => {
   return (
@@ -57,7 +57,7 @@ const PageHeader = () => {
           <Softwarelogo width={"18rem"} color={"rgb(38, 132, 255)"} />
         </ButtonNoPadding>
         <ProjectPopover />
-        <span>用户</span>
+        <UserPopover />
       </HeaderLeft>
       <HeaderRight>
         <Dropdown menu={{ items }}>
